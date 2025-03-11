@@ -116,5 +116,48 @@ const createContact = async (req, res, next) => {
     });
 };
 
+const deleteContact = async (req, res, next) => {
+    const cid = req.params.cid;
+    let user;
+    try {
+        user = await User.findOne({ cid: cid });
+    } catch (err) {
+        const error = new HttpError(
+            "Something went wrong, could not delete user.",
+            500
+        );
+        return next(error);
+    }
+    if (!user) {
+        const error = new HttpError("Could not find user for this id.", 404);
+        return next(error);
+    }
+
+    // if (user.cid !== req.userData.cid) {
+    //     const error = new HttpError("You are not allowed to delete this user.", 401);
+    //     return next(error);
+    // }
+
+    try {
+        console.log("Deleting user from database...");
+        await user.deleteOne();
+        console.log("User deleted successfully!");
+    } catch (err) {
+        const error = new HttpError(
+            "Something went wrong, could not delete user.",
+            500
+        );
+        return next(error);
+    }
+
+    res.status(200).json({
+        message: "This contact has been deleted.",
+        cid: cid,
+        firstname: user.firstname,
+        lastname: user.lastname,
+    });
+};
+
 exports.getUsers = getUsers;
 exports.createContact = createContact;
+exports.deleteContact = deleteContact;

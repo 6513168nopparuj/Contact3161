@@ -5,6 +5,8 @@ const usersControllers = require("../controllers/users-controller");
 
 const router = express.Router();
 
+const checkAuth = require("../middleware/check-auth");
+
 router.get("/", usersControllers.getUsers);
 
 router.post(
@@ -20,6 +22,8 @@ router.post(
     usersControllers.createContact
 );
 
-// router.delete("/:cid", usersControllers.deleteContact);
+// router.use(checkAuth);
+
+router.delete("/:cid", usersControllers.deleteContact);
 
 module.exports = router;
