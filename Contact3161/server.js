@@ -17,26 +17,8 @@ mongoose
     .then(() => {
         app.listen(8082);
         console.log("Database connected successfully!");
-        console.log("Server is running at https://localhost:8081");
+        console.log("Server is running at https://localhost:8082");
     })
     .catch((err) => {
         console.log("Connection failed!", err);
     });
-
-// const connectDB = async () => {
-//     try {
-//         const client = new MongoClient(url, { useUnifiedTopology: true });
-//         await client.connect();
-//         console.log("Connected to MongoDB successfully!");
-//         dbo = client.db(process.env.DB_NAME);
-//     } catch (err) {
-//         console.error("Database connection error:", err);
-//         process.exit(1);
-//     }
-// };
-
-// connectDB().then(() => {
-//     app.listen(8081, () => {
-//         console.log("Server is running at https://localhost:8081")
-//     })
-// })

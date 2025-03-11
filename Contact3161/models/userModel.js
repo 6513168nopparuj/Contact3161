@@ -9,7 +9,7 @@ const userSchema = new Schema(
         lastname: { type: String, required: true },
         mobile: { type: String, required: true },
         password: { type: String, required: true, minlength: 6 },
-        email: { type: String, unique: true, default: "" },
+        email: { type: String, default: "" },
         facebook: { type: String, default: "" },
         imageUrl: { type: String, default: "" },
     },

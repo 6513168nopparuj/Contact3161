@@ -7,7 +7,11 @@ const router = express.Router();
 
 const checkAuth = require("../middleware/check-auth");
 
+router.post("/login", usersControllers.login);
+
 router.get("/", usersControllers.getUsers);
+
+router.get("/:cid", usersControllers.getUserId);
 
 router.post(
     "/createContact",
@@ -23,6 +27,8 @@ router.post(
 );
 
 // router.use(checkAuth);
+
+router.patch("/:cid", usersControllers.updateContact);
 
 router.delete("/:cid", usersControllers.deleteContact);
 
