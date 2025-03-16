@@ -102,7 +102,6 @@ export default {
     overflow: hidden; /* Prevent entire page from scrolling */
 }
 
-/* Fixed search bar */
 .header-container {
     position: fixed;
     top: 0;
@@ -114,9 +113,8 @@ export default {
     z-index: 1000;
 }
 
-/* Push content down so it doesn't get hidden behind the fixed header */
 .contacts-list {
-    margin-top: 15%; /* Adjust this based on header height */
+    margin-top: 110px; /* Adjust this based on header height */
     overflow-y: auto;
     flex: 1;
     padding: 1rem;
@@ -136,21 +134,5 @@ export default {
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-right: 10px;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    .search-bar {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .search-input {
-        width: 100%;
-    }
-
-    .contacts-list {
-        margin-top: 120px; /* Adjust for smaller header spacing */
-    }
 }
 </style>
