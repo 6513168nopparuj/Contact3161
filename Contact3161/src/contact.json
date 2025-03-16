@@ -7,6 +7,13 @@
         "img": "/images/avatar2/large/kristy.png"
     },
     {
+        "name": "Kristy Chung",
+        "mobile": "099-000-1234",
+        "email": "kristy@example.com",
+        "facebook": "https://facebook.com/kristy",
+        "img": "/images/avatar2/large/kristy.png"
+    },
+    {
         "name": "Matt Giampietro",
         "mobile": "097-000-4567",
         "email": "matt@example.com",

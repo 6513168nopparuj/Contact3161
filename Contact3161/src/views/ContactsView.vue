@@ -5,8 +5,10 @@
                 <i class="address book icon"></i>
                 <div class="content">Contacts</div>
             </h2>
+        </div>
 
-            <div class="search-bar">
+        <div class="search-section">
+            <div class="ui fluid action input">
                 <input
                     type="text"
                     class="search-input"
@@ -19,19 +21,27 @@
             </div>
         </div>
 
-        <div class="contacts-list">
-            <div class="ui stackable three column grid">
+        <div class="border">
+            <div class="contacts-list">
                 <div
-                    class="column"
-                    v-for="(contact, index) in filteredContacts"
-                    :key="index"
+                    v-if="filteredContacts.length > 0"
+                    class="ui grid container"
                 >
-                    <ContactCard
-                        :contact="contact"
-                        :index="index"
-                        @delete="deleteContact"
-                        @edit="editContact"
-                    />
+                    <div
+                        class="four wide column"
+                        v-for="(contact, index) in filteredContacts"
+                        :key="index"
+                    >
+                        <ContactCard
+                            :contact="contact"
+                            :index="index"
+                            @delete="deleteContact"
+                            @edit="editContact"
+                        />
+                    </div>
+                </div>
+                <div v-else class="no-results">
+                    <h1>No results found.</h1>
                 </div>
             </div>
         </div>
@@ -95,6 +105,11 @@ export default {
 </script>
 
 <style scoped>
+.border {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 1rem;
+}
 .contacts-container {
     display: flex;
     flex-direction: column;
@@ -114,7 +129,9 @@ export default {
 }
 
 .contacts-list {
-    margin-top: 110px; /* Adjust this based on header height */
+    margin-top: 3%;
+    margin-bottom: 3%;
+    /* border: 1px solid black; */
     overflow-y: auto;
     flex: 1;
     padding: 1rem;
@@ -122,6 +139,9 @@ export default {
 }
 
 /* Search bar styling */
+.search-section {
+    padding-top: 8%;
+}
 .search-bar {
     display: flex;
     justify-content: space-between;
@@ -129,10 +149,18 @@ export default {
 }
 
 .search-input {
-    width: 70%;
+    width: 100%;
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-right: 10px;
+}
+
+.no-results {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Makes sure it takes up the full height of its container */
+    text-align: center;
 }
 </style>

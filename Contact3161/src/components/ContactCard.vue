@@ -39,4 +39,22 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Set a fixed width for the card */
+.ui.fluid.card {
+    width: 100%; /* Adjust this value as needed */
+}
+
+/* Fix the image container height and hide overflow */
+.ui.fluid.card .image {
+    height: 100%; /* Adjust the height as needed */
+    overflow: hidden;
+}
+
+/* Ensure the image covers the container without distortion */
+.ui.fluid.card .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+</style>
