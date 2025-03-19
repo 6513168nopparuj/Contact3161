@@ -1,39 +1,33 @@
-import {createRouter,createWebHistory} from "vue-router"
+import { createRouter, createWebHistory } from "vue-router";
 
-import HelloWorld from "../components/HelloWorld.vue"
-import Home from "../views/Home.vue"
-import Search from "../views/Search.vue"
+import ContactsView from "../views/ContactsView.vue";
+import SignIn from "../views/SignIn.vue";
 
-const routerHistory = createWebHistory()
+const routerHistory = createWebHistory();
 
 const routes = [
     {
-    path : "/home",
-    name : "Home",
-    component: Home
+        path: "/Contacts",
+        name: "Contacts",
+        component: ContactsView,
     },
     {
-    path : "/hello",
-    name : "HelloWorld",
-    component: HelloWorld
+        path: "/SignIn",
+        name: "SignIn",
+        component: SignIn,
     },
     {
-    path : "/search",
-    name : "search",
-    component: Search
+        path: "/",
+        redirect: "/Contacts",
     },
     {
-    path : "/",
-    redirect : '/search',
+        path: "/:catchAll(.*)",
+        redirect: "/Contacts",
     },
-    {
-    path : "/:catchAll(.*)",
-    redirect : '/search',
-    }
+];
+const router = createRouter({
+    history: routerHistory,
+    routes,
+});
 
-]
-const router =  createRouter({
-    history:routerHistory,
-    routes
-})
-export default router
+export default router;

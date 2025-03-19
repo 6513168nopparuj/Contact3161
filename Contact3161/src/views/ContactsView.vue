@@ -3,7 +3,13 @@
         <div class="header-container">
             <h2 class="ui dividing header">
                 <i class="address book icon" style="color: white"></i>
-                <div class="content" style="color: white">Contacts</div>
+                <router-link
+                    to="/Contacts"
+                    class="content"
+                    style="color: white; text-decoration: none"
+                >
+                    Contacts
+                </router-link>
             </h2>
         </div>
 
@@ -25,7 +31,8 @@
             <div class="contacts-list">
                 <div
                     v-if="filteredContacts.length > 0"
-                    class="ui grid container" style="padding-bottom: 7%;"
+                    class="ui grid container"
+                    style="padding-bottom: 7%"
                 >
                     <div
                         class="four wide column"
