@@ -2,8 +2,8 @@
     <div class="contacts-container">
         <div class="header-container">
             <h2 class="ui dividing header">
-                <i class="address book icon"></i>
-                <div class="content">Contacts</div>
+                <i class="address book icon" style="color: white"></i>
+                <div class="content" style="color: white">Contacts</div>
             </h2>
         </div>
 
@@ -25,7 +25,7 @@
             <div class="contacts-list">
                 <div
                     v-if="filteredContacts.length > 0"
-                    class="ui grid container"
+                    class="ui grid container" style="padding-bottom: 7%;"
                 >
                     <div
                         class="four wide column"
@@ -108,7 +108,7 @@ export default {
 .border {
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin: 1rem;
+    margin-top: 1rem;
 }
 .contacts-container {
     display: flex;
@@ -122,16 +122,14 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    background: white;
+    background: black;
     padding: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
 
 .contacts-list {
-    margin-top: 3%;
-    margin-bottom: 3%;
-    /* border: 1px solid black; */
+    margin: 2% 1% 3% 1%;
     overflow-y: auto;
     flex: 1;
     padding: 1rem;
@@ -157,7 +155,7 @@ export default {
 }
 
 .no-results {
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: center;
     height: 100%; /* Makes sure it takes up the full height of its container */
