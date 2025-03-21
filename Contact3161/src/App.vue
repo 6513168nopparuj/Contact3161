@@ -1,20 +1,52 @@
 <template>
     <div id="app">
-      <div id="nav">
-        <div class="header-container">
-          <h2 class="ui dividing header">
-            <i class="address book icon" style="color: white"></i>
-            <router-link to="/Contacts" class="content" style="color: white; text-decoration: none;">
-              Contacts
-            </router-link>
-          </h2>
+        <div id="nav">
+            <div class="header-container">
+                <h2 class="ui dividing header header-flex">
+                    <i class="address book icon" style="color: white"></i>
+                    <router-link
+                        to="/Contacts"
+                        class="content"
+                        style="color: white; text-decoration: none"
+                    >
+                        Contacts
+                    </router-link>
+                </h2>
+                <button
+                    v-if="isLoggedIn"
+                    class="ui red button logout-button"
+                    @click="logout"
+                >
+                    Logout
+                </button>
+            </div>
         </div>
-      </div>
-      <router-view />
+        <router-view />
     </div>
-  </template>
+</template>
 
 <script setup>
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const isLoggedIn = ref(false);
+
+// Check if user is logged in
+const checkAuth = () => {
+    isLoggedIn.value = !!localStorage.getItem("token");
+};
+
+const logout = () => {
+    localStorage.removeItem("token"); // Remove token
+    isLoggedIn.value = false; // Update state
+    router.push("/sign-in"); // Redirect to sign-in
+};
+
+// Run check when component is mounted
+onMounted(() => {
+    checkAuth();
+});
 </script>
 
 <style>
@@ -34,5 +66,28 @@ body {
     padding: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+.logout-button {
+    margin-right: 20px;
+}
+
+.header-flex {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between icon and text */
+}
+
+.header-flex i,
+.header-flex .content {
+    color: white;
+}
+
+.content {
+    text-decoration: none;
+}
+
 </style>

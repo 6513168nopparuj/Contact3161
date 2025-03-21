@@ -10,6 +10,7 @@ const routes = [
         path: "/Contacts",
         name: "Contacts",
         component: ContactsView,
+        meta: { requiresAuth: true },
     },
     {
         path: "/SignIn",
@@ -18,16 +19,29 @@ const routes = [
     },
     {
         path: "/",
-        redirect: "/Contacts",
+        redirect: "/SignIn",
     },
     {
         path: "/:catchAll(.*)",
-        redirect: "/Contacts",
+        redirect: "/SignIn",
     },
 ];
 const router = createRouter({
     history: routerHistory,
     routes,
 });
+
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = localStorage.getItem("token");
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+        if (!isAuthenticated) {
+            next({ name: "SignIn" });
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+})
 
 export default router;

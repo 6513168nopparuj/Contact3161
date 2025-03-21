@@ -1,16 +1,19 @@
 <template>
     <div class="contacts-container">
         <div class="header-container">
-            <h2 class="ui dividing header">
-                <i class="address book icon" style="color: white"></i>
+            <h2 class="ui dividing header header">
+                <i class="address book icon" style="color: white; padding-top: 5%;"></i>
                 <router-link
                     to="/Contacts"
                     class="content"
-                    style="color: white; text-decoration: none"
+                    style="color: white; text-decoration: none; padding-top: 5%;"
                 >
                     Contacts
                 </router-link>
             </h2>
+            <button v-if="isLoggedIn" class="ui red button logout-btn" @click="logout">
+                Logout
+            </button>
         </div>
 
         <div class="search-section">
@@ -55,8 +58,10 @@
     </div>
 </template>
 
+
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import ContactCard from "../components/ContactCard.vue";
 import contactsData from "../contact.json";
 
@@ -66,8 +71,25 @@ export default {
         ContactCard,
     },
     setup() {
+        const router = useRouter();
         const searchQuery = ref("");
         const contacts = ref(contactsData);
+        const isLoggedIn = ref(false);
+
+        onMounted(() => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                router.push("/SignIn");
+            } else {
+                isLoggedIn.value = true;
+            }
+        });
+
+        const logout = () => {
+            localStorage.removeItem("token");
+            isLoggedIn.value = false;
+            router.push("/SignIn");
+        };
 
         const filteredContacts = computed(() => {
             if (!searchQuery.value) {
@@ -82,34 +104,16 @@ export default {
             );
         });
 
-        const addContact = () => {
-            contacts.value.push({
-                name: "New Contact",
-                mobile: "",
-                email: "",
-                facebook: "",
-                img: "/images/avatar2/large/elyse.png",
-            });
-        };
-
-        const deleteContact = (index) => {
-            contacts.value.splice(index, 1);
-        };
-
-        const editContact = (index) => {
-            alert(`Edit contact at index ${index}`);
-        };
-
         return {
             searchQuery,
             filteredContacts,
-            addContact,
-            deleteContact,
-            editContact,
+            logout,
+            isLoggedIn,
         };
     },
 };
 </script>
+
 
 <style scoped>
 .border {
