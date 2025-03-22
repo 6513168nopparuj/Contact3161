@@ -131,65 +131,65 @@ const createContact = async (req, res, next) => {
     });
 };
 
-const login = async (req, res, next) => {
-    const { username, password } = req.body;
-    let existingUser;
-    try {
-        existingUser = await User.findOne({ firstname: username });
-    } catch (err) {
-        const error = new HttpError(
-            "Login failed, please try again later.",
-            500
-        );
-        return next(error);
-    }
-    if (!existingUser) {
-        const error = new HttpError(
-            "Invalid credentials, could not log you in.",
-            403
-        );
-        return next(error);
-    }
+// const login = async (req, res, next) => {
+//     const { username, password } = req.body;
+//     let existingUser;
+//     try {
+//         existingUser = await User.findOne({ firstname: username });
+//     } catch (err) {
+//         const error = new HttpError(
+//             "Login failed, please try again later.",
+//             500
+//         );
+//         return next(error);
+//     }
+//     if (!existingUser) {
+//         const error = new HttpError(
+//             "Invalid credentials, could not log you in.",
+//             403
+//         );
+//         return next(error);
+//     }
 
-    let isValidPassword = false;
-    let currentPassword = md5(password);
-    try {
-        isValidPassword = existingUser.password === currentPassword;
-    } catch (err) {
-        const error = new HttpError(
-            "Could not log you in, please check your credentials and try again.",
-            500
-        );
-        return next(error);
-    }
-    if (!isValidPassword) {
-        const error = new HttpError(
-            "Invalid credentials, could not log you in.",
-            403
-        );
-        return next(error);
-    }
+//     let isValidPassword = false;
+//     let currentPassword = md5(password);
+//     try {
+//         isValidPassword = existingUser.password === currentPassword;
+//     } catch (err) {
+//         const error = new HttpError(
+//             "Could not log you in, please check your credentials and try again.",
+//             500
+//         );
+//         return next(error);
+//     }
+//     if (!isValidPassword) {
+//         const error = new HttpError(
+//             "Invalid credentials, could not log you in.",
+//             403
+//         );
+//         return next(error);
+//     }
 
-    let token;
-    try {
-        token = jwt.sign(
-            {
-                userId: existingUser.id,
-                email: existingUser.email,
-            },
-            process.env.JWT_KEY,
-            { expiresIn: "1h" }
-        );
-    } catch (err) {
-        const error = new HttpError(
-            "Logging in failed, please try again.",
-            500
-        );
-        return next(error);
-    }
+//     let token;
+//     try {
+//         token = jwt.sign(
+//             {
+//                 userId: existingUser.id,
+//                 email: existingUser.email,
+//             },
+//             process.env.JWT_KEY,
+//             { expiresIn: "1h" }
+//         );
+//     } catch (err) {
+//         const error = new HttpError(
+//             "Logging in failed, please try again.",
+//             500
+//         );
+//         return next(error);
+//     }
 
-    res.json({ result: "true", token: token });
-};
+//     res.json({ result: "true" });
+// };
 
 const updateContact = async (req, res, next) => {
     const errors = validationResult(req);
@@ -321,7 +321,7 @@ const deleteContact = async (req, res, next) => {
 
 exports.getUsers = getUsers;
 exports.getUserId = getUserId;
-exports.login = login;
+// exports.login = login;
 exports.createContact = createContact;
 exports.updateContact = updateContact;
 exports.deleteContact = deleteContact;

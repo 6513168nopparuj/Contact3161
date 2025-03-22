@@ -8,8 +8,10 @@ app.use(cors());
 
 require("dotenv").config();
 
+const loginRoutes = require("./routes/login-routes");
 const usersRoutes = require("./routes/users-routes");
 
+app.use("/user", loginRoutes);
 app.use("/contacts", usersRoutes);
 
 mongoose

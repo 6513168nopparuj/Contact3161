@@ -58,7 +58,7 @@ export default {
             try {
                 console.log("Login form data", this.formData)
                 const response = await axios.post(
-                    "http://localhost:8082/contacts/login",
+                    "http://localhost:8082/user/",
                     {
                         username: this.formData.username,
                         password: Number(this.formData.password),
