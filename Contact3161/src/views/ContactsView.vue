@@ -1,13 +1,9 @@
 <template>
-    <div class="contacts-container">
+    <div :class="['contacts-container', { 'center-content': filteredContacts.length === 0 }]">
         <div class="header-container">
             <h2 class="ui dividing header header">
-                <i class="address book icon" style="color: white; padding-top: 5%;"></i>
-                <router-link
-                    to="/Contacts"
-                    class="content"
-                    style="color: white; text-decoration: none; padding-top: 5%;"
-                >
+                <i class="address book icon" style="color: white; padding-top: 5%"></i>
+                <router-link to="/Contacts" class="content" style="color: white; text-decoration: none; padding-top: 5%">
                     Contacts
                 </router-link>
             </h2>
@@ -37,11 +33,7 @@
                     class="ui grid container"
                     style="padding-bottom: 7%"
                 >
-                    <div
-                        class="four wide column"
-                        v-for="(contact, index) in filteredContacts"
-                        :key="index"
-                    >
+                    <div class="four wide column" v-for="(contact, index) in filteredContacts" :key="index">
                         <ContactCard
                             :contact="contact"
                             :index="index"
@@ -62,8 +54,8 @@
 <script>
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import axios from "axios";
 import ContactCard from "../components/ContactCard.vue";
-import contactsData from "../contact.json";
 
 export default {
     name: "ContactsView",
@@ -73,17 +65,34 @@ export default {
     setup() {
         const router = useRouter();
         const searchQuery = ref("");
-        const contacts = ref(contactsData);
+        const contacts = ref([]);
         const isLoggedIn = ref(false);
 
-        onMounted(() => {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                router.push("/SignIn");
-            } else {
+        // Fetch contacts from API
+        const fetchContacts = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    router.push("/SignIn");
+                    return;
+                }
+
                 isLoggedIn.value = true;
+                const response = await axios.get(
+                    "http://localhost:8082/contacts",
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
+
+                contacts.value = response.data.users;
+            } catch (error) {
+                console.error("Error fetching contacts:", error);
+                alert("Failed to load contacts.");
             }
-        });
+        };
+
+        onMounted(fetchContacts);
 
         const logout = () => {
             localStorage.removeItem("token");
@@ -98,7 +107,8 @@ export default {
             const q = searchQuery.value.toLowerCase();
             return contacts.value.filter(
                 (contact) =>
-                    contact.name.toLowerCase().includes(q) ||
+                    contact.firstname.toLowerCase().includes(q) ||
+                    contact.lastname.toLowerCase().includes(q) ||
                     contact.mobile.includes(q) ||
                     contact.email.toLowerCase().includes(q)
             );
@@ -114,19 +124,23 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .border {
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-top: 1rem;
 }
-.contacts-container {
+/* .contacts-container {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Full height of viewport */
-    overflow: hidden; /* Prevent entire page from scrolling */
+    align-items: flex-start;
 }
+
+.center-content {
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+} */
 
 .header-container {
     position: fixed;
@@ -165,11 +179,4 @@ export default {
     margin-right: 10px;
 }
 
-.no-results {
-    display: block;
-    align-items: center;
-    justify-content: center;
-    height: 100%; /* Makes sure it takes up the full height of its container */
-    text-align: center;
-}
 </style>

@@ -1,15 +1,14 @@
 <template>
     <div class="ui fluid card">
         <div class="image">
-            <img :src="contact.img" :alt="contact.name" />
+            <img :src="`${contact.imageUrl}`" :alt="`${contact.firstname} ${contact.lastname}`" />
         </div>
         <div class="content">
-            <div class="header">{{ contact.name }}</div>
+            <div class="header">{{ contact.firstname }} {{ contact.lastname }}</div>
             <div class="meta">
                 {{ contact.mobile }}<br />
-                <a>{{ contact.email }}</a
-                ><br />
-                <a> {{ contact.facebook }}</a>
+                <a>{{ contact.email }}</a><br />
+                <a>{{ contact.facebook }}</a>
             </div>
         </div>
         <div class="extra content">
