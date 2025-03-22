@@ -129,17 +129,18 @@ export default {
     border-radius: 5px;
     margin-top: 1rem;
 }
+
 /* .contacts-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-}
+} */
 
 .center-content {
     justify-content: center;
     align-items: center;
     height: 100vh;
-} */
+}
 
 .header-container {
     position: fixed;
