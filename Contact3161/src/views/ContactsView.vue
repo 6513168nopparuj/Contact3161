@@ -68,7 +68,6 @@ export default {
         const contacts = ref([]);
         const isLoggedIn = ref(false);
 
-        // Fetch contacts from API
         const fetchContacts = async () => {
             try {
                 const token = localStorage.getItem("token");
