@@ -12,10 +12,12 @@
             </div>
         </div>
         <div class="extra content">
-            <div class="ui two buttons">
-                <button class="ui basic blue button" @click="edit">Edit</button>
-                <button class="ui basic red button" @click="remove">
-                    Delete
+            <div class="button-group">
+                <button class="ui blue button" @click="edit">
+                    <i class="edit icon"></i> Edit
+                </button>
+                <button class="ui red button" @click="remove">
+                    <i class="trash alternate outline icon"></i> Delete
                 </button>
             </div>
         </div>
@@ -55,5 +57,11 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 5%; /* This creates space between the buttons */
 }
 </style>
