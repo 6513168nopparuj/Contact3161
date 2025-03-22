@@ -75,23 +75,18 @@ const createContact = async (req, res, next) => {
         return next(error);
     }
 
-    const hashedPassword = md5(password);
-
     const createdUser = new User({
         cid,
         firstname,
         lastname,
         mobile,
         email: email || "",
-        password: hashedPassword,
         facebook: facebook || "",
         imageUrl: imageUrl || "",
     });
 
     try {
-        console.log("Saving user to database...");
         await createdUser.save();
-        console.log("User saved successfully!");
     } catch (err) {
         console.error("Error saving user:", err);
         const error = new HttpError(
@@ -101,23 +96,23 @@ const createContact = async (req, res, next) => {
         return next(error);
     }
 
-    let token;
-    try {
-        token = jwt.sign(
-            {
-                userId: createdUser.id,
-                email: createdUser.email,
-            },
-            process.env.JWT_KEY,
-            { expiresIn: "1h" }
-        );
-    } catch (err) {
-        const error = new HttpError(
-            "Signing up failed, please try again.",
-            500
-        );
-        return next(error);
-    }
+    // let token;
+    // try {
+    //     token = jwt.sign(
+    //         {
+    //             userId: createdUser.id,
+    //             email: createdUser.email,
+    //         },
+    //         process.env.JWT_KEY,
+    //         { expiresIn: "1h" }
+    //     );
+    // } catch (err) {
+    //     const error = new HttpError(
+    //         "Signing up failed, please try again.",
+    //         500
+    //     );
+    //     return next(error);
+    // }
 
     res.status(201).json({
         cid: createdUser.cid,
@@ -127,7 +122,7 @@ const createContact = async (req, res, next) => {
         mobile: createdUser.mobile,
         facebook: createdUser.facebook,
         imageUrl: createdUser.imageUrl,
-        token: token,
+        // token: token,
     });
 };
 

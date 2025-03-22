@@ -67,4 +67,43 @@ const login = async (req, res, next) => {
     res.json({ result: "true" });
 };
 
+const signup = async (req, res, next) => {
+    const { username, password } = req.body;
+    let existingUser;
+    try {
+        existingUser = await Login.findOne({ username: username }); 
+    } catch (err) {
+        const error = new HttpError(
+            "Signing up failed, please try again later.",
+            500
+        );
+        return next(error);
+    }
+    if (existingUser) {
+        const error = new HttpError(
+            "User exists already, please login instead.",
+            422
+        );
+        return next(error);
+    }
+
+    let hashedPassword = md5(password);
+    const createdUser = new Login({
+        username,
+        password: hashedPassword,
+    })
+    try {
+        await createdUser.save();
+    } catch (err) {
+        const error = new HttpError(
+            "Signing up failed, please try again.",
+            500
+        );
+        return next(error);
+    }
+    res.status(201).json({ message: "Created User successfully" });
+
+}
+
 exports.login = login;
+exports.signup = signup;

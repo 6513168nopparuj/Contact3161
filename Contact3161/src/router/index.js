@@ -2,13 +2,14 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import ContactsView from "../views/ContactsView.vue";
 import SignIn from "../views/SignIn.vue";
+import SignUp from "../views/SignUp.vue";
 
 const routerHistory = createWebHistory();
 
 const routes = [
     {
-        path: "/Contacts",
-        name: "Contacts",
+        path: "/contacts",
+        name: "contacts",
         component: ContactsView,
         meta: { requiresAuth: true },
     },
@@ -16,6 +17,11 @@ const routes = [
         path: "/SignIn",
         name: "SignIn",
         component: SignIn,
+    },
+    {
+        path: "/SignUp",
+        name: "SignUp",
+        component: SignUp
     },
     {
         path: "/",

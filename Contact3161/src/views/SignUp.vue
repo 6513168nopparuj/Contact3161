@@ -2,17 +2,16 @@
     <div class="ui middle aligned center aligned grid" style="height: 100vh">
         <div class="column" style="max-width: 450px">
             <h2 class="ui teal image header">
-                <div class="content">Login</div>
+                <div class="content">Sign Up</div>
             </h2>
-            <form class="ui large form" @submit.prevent="handleLogin">
+            <form class="ui large form" @submit.prevent="handleSignUp">
                 <div class="ui segment">
                     <div class="field">
                         <div class="ui left icon input">
                             <i class="user icon"></i>
                             <input
-                                id="username"
                                 type="text"
-                                placeholder="User Account"
+                                placeholder="Username"
                                 v-model="formData.username"
                                 required
                             />
@@ -22,7 +21,6 @@
                         <div class="ui left icon input">
                             <i class="lock icon"></i>
                             <input
-                                id="password"
                                 type="password"
                                 placeholder="Password"
                                 v-model="formData.password"
@@ -31,14 +29,15 @@
                         </div>
                     </div>
                     <button type="submit" class="ui fluid large teal button">
-                        Login
+                        Sign Up
                     </button>
                 </div>
             </form>
+
             <div class="ui message">
-                Don't have an account ?
-                <button class="ui small blue button" @click="goToSignUp">
-                    Sign Up
+                Already have an account ?
+                <button class="ui small blue button" @click="goToLogin">
+                    Login
                 </button>
             </div>
         </div>
@@ -47,8 +46,9 @@
 
 <script>
 import axios from "axios";
+
 export default {
-    name: "SignIn",
+    name: "SignUp",
     data() {
         return {
             formData: {
@@ -57,18 +57,12 @@ export default {
             },
         };
     },
-    created() {
-        const token = localStorage.getItem("token");
-        if (token) {
-            this.$router.push("/contacts"); // Redirect if already logged in
-        }
-    },
     methods: {
-        async handleLogin() {
+        async handleSignUp() {
             try {
-                console.log("Login form data", this.formData);
+                console.log("Sign up form data", this.formData);
                 const response = await axios.post(
-                    "http://localhost:8082/user/",
+                    "http://localhost:8082/user/signup",
                     {
                         username: this.formData.username,
                         password: Number(this.formData.password),
@@ -78,17 +72,17 @@ export default {
                 const token = response.data.token;
                 localStorage.setItem("token", token);
 
-                console.log("Login response", response);
-                alert("Login successful!");
+                console.log("Sign up response", response);
+                alert("Account created successfully!");
                 this.$router.push("/contacts");
             } catch (error) {
-                console.log("Login error", error);
-                alert("Login failed, please check your credentials!");
+                console.log("Sign up error", error);
+                alert("Sign up failed. Try again!");
             }
         },
-        goToSignUp() {
-            this.$router.push("/signup");
-        }
+        goToLogin() {
+            this.$router.push("/SignIn");
+        },
     },
 };
 </script>
