@@ -1,13 +1,29 @@
 <template>
-    <div :class="['contacts-container', { 'center-content': filteredContacts.length === 0 }]">
+    <div
+        :class="[
+            'contacts-container',
+            { 'center-content': filteredContacts.length === 0 },
+        ]"
+    >
         <div class="header-container">
             <h2 class="ui dividing header header">
-                <i class="address book icon" style="color: white; padding-top: 5%"></i>
-                <router-link to="/Contacts" class="content" style="color: white; text-decoration: none; padding-top: 5%">
+                <i
+                    class="address book icon"
+                    style="color: white; padding-top: 5%"
+                ></i>
+                <router-link
+                    to="/Contacts"
+                    class="content"
+                    style="color: white; text-decoration: none; padding-top: 5%"
+                >
                     Contacts
                 </router-link>
             </h2>
-            <button v-if="isLoggedIn" class="ui red button logout-btn" @click="logout">
+            <button
+                v-if="isLoggedIn"
+                class="ui red button logout-btn"
+                @click="logout"
+            >
                 Logout
             </button>
         </div>
@@ -33,7 +49,11 @@
                     class="ui grid container"
                     style="padding-bottom: 7%"
                 >
-                    <div class="four wide column" v-for="(contact, index) in filteredContacts" :key="index">
+                    <div
+                        class="four wide column"
+                        v-for="(contact, index) in filteredContacts"
+                        :key="index"
+                    >
                         <ContactCard
                             :contact="contact"
                             :index="index"
@@ -49,7 +69,6 @@
         </div>
     </div>
 </template>
-
 
 <script>
 import { ref, computed, onMounted } from "vue";
@@ -72,6 +91,7 @@ export default {
             try {
                 const token = localStorage.getItem("token");
                 if (!token) {
+                    console.log("No token found!");
                     router.push("/SignIn");
                     return;
                 }
@@ -86,8 +106,20 @@ export default {
 
                 contacts.value = response.data.users;
             } catch (error) {
-                console.error("Error fetching contacts:", error);
-                alert("Failed to load contacts.");
+                console.error(
+                    "Error fetching contacts:",
+                    error.response?.data || error
+                );
+
+                if (error.response?.status === 403) {
+                    alert(
+                        "Session expired or insufficient permissions. Please log in again."
+                    );
+                    localStorage.removeItem("token");
+                    router.push("/SignIn");
+                } else {
+                    alert("Failed to load contacts.");
+                }
             }
         };
 
@@ -178,5 +210,4 @@ export default {
     border-radius: 5px;
     margin-right: 10px;
 }
-
 </style>

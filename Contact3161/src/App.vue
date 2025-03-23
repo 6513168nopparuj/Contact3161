@@ -32,18 +32,16 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const isLoggedIn = ref(false);
 
-// Check if user is logged in
 const checkAuth = () => {
     isLoggedIn.value = !!localStorage.getItem("token");
 };
 
 const logout = () => {
-    localStorage.removeItem("token"); // Remove token
-    isLoggedIn.value = false; // Update state
-    router.push("/sign-in"); // Redirect to sign-in
+    localStorage.removeItem("token");
+    isLoggedIn.value = false; 
+    router.push("/SignIn"); 
 };
 
-// Run check when component is mounted
 onMounted(() => {
     checkAuth();
 });

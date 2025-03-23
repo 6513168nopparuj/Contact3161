@@ -56,6 +56,8 @@ const login = async (req, res, next) => {
             process.env.JWT_KEY,
             { expiresIn: "1h" }
         );
+        res.json({ token: token });
+        return;
     } catch (err) {
         const error = new HttpError(
             "Logging in failed, please try again.",
