@@ -56,8 +56,7 @@ const login = async (req, res, next) => {
             process.env.JWT_KEY,
             { expiresIn: "1h" }
         );
-        res.json({ token: token });
-        return;
+        return res.json({ token: token, result: "true" });
     } catch (err) {
         const error = new HttpError(
             "Logging in failed, please try again.",
@@ -65,15 +64,13 @@ const login = async (req, res, next) => {
         );
         return next(error);
     }
-
-    res.json({ result: "true" });
 };
 
 const signup = async (req, res, next) => {
     const { username, password } = req.body;
     let existingUser;
     try {
-        existingUser = await Login.findOne({ username: username }); 
+        existingUser = await Login.findOne({ username: username });
     } catch (err) {
         const error = new HttpError(
             "Signing up failed, please try again later.",
@@ -89,11 +86,11 @@ const signup = async (req, res, next) => {
         return next(error);
     }
 
-    let hashedPassword = md5(password);
+    let hashedPassword = md5(Number(password));
     const createdUser = new Login({
         username,
         password: hashedPassword,
-    })
+    });
     try {
         await createdUser.save();
     } catch (err) {
@@ -103,9 +100,29 @@ const signup = async (req, res, next) => {
         );
         return next(error);
     }
-    res.status(201).json({ message: "Created User successfully" });
 
-}
+    let token;
+    try {
+        token = jwt.sign(
+            {
+                userId: createdUser.id,
+                username: createdUser.username,
+            },
+            process.env.JWT_KEY,
+            { expiresIn: "1h" }
+        );
+    } catch (err) {
+        const error = new HttpError(
+            "Could not create token, please try again.",
+            500
+        );
+        return next(error);
+    }
+    res.status(201).json({
+        token: token,
+        message: "Created User successfully",
+    });
+};
 
 exports.login = login;
 exports.signup = signup;
