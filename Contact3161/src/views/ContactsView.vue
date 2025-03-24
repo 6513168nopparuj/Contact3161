@@ -51,12 +51,12 @@
                 >
                     <div
                         class="four wide column"
-                        v-for="(contact, index) in filteredContacts"
-                        :key="index"
+                        v-for="contact in filteredContacts"
+                        :key="contact._id"
                     >
                         <ContactCard
                             :contact="contact"
-                            :index="index"
+                            :index="Number(contact.cid)"
                             @delete="deleteContact"
                             @edit="editContact"
                         />
@@ -131,6 +131,39 @@ export default {
             router.push("/SignIn");
         };
 
+        const deleteContact = async (contactId) => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    router.push("/SignIn");
+                    return;
+                }
+                const response = await axios.delete(
+                    `http://localhost:8082/contacts/${contactId}`,
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
+                if (response.status === 200) {
+                    await fetchContacts(); // Refresh the contacts list
+                }
+            } catch (error) {
+                console.error(
+                    "Error deleting contact:",
+                    error.response?.data || error
+                );
+                if (error.response?.status === 403) {
+                    alert(
+                        "Session expired or insufficient permissions. Please log in again."
+                    );
+                    localStorage.removeItem("token");
+                    router.push("/SignIn");
+                } else {
+                    alert("Failed to delete contact.");
+                }
+            }
+        };
+
         const filteredContacts = computed(() => {
             if (!searchQuery.value) {
                 return contacts.value;
@@ -149,6 +182,7 @@ export default {
             searchQuery,
             filteredContacts,
             logout,
+            deleteContact,
             isLoggedIn,
         };
     },

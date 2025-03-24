@@ -13,10 +13,10 @@
         </div>
         <div class="extra content">
             <div class="button-group">
-                <button class="ui blue button" @click="edit">
+                <button class="ui blue button" @click="editContact">
                     <i class="edit icon"></i> Edit
                 </button>
-                <button class="ui red button" @click="remove">
+                <button class="ui red button" @click="deleteContact">
                     <i class="trash alternate outline icon"></i> Delete
                 </button>
             </div>
@@ -37,6 +37,14 @@ export default {
             required: true,
         },
     },
+    methods: {
+        deleteContact() {
+            this.$emit("delete", this.index);
+        },
+        editContact() {
+            this.$emit("edit", this.index);
+        }
+    }
 };
 </script>
 
