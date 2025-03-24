@@ -4,6 +4,7 @@ import ContactsView from "../views/ContactsView.vue";
 import SignIn from "../views/SignIn.vue";
 import SignUp from "../views/SignUp.vue";
 import addContact from "../views/addContact.vue";
+import UpdateContact from "../views/updateContact.vue";
 
 const routerHistory = createWebHistory();
 
@@ -28,6 +29,12 @@ const routes = [
         path: "/addContact",
         name: "addContact",
         component: addContact,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/updateContact/:cid",
+        name: "updateContact",
+        component: UpdateContact,
         meta: { requiresAuth: true },
     },
     {

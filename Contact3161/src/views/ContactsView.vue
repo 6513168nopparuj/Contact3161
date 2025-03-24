@@ -169,6 +169,10 @@ export default {
             }
         };
 
+        const editContact = (cid) => {
+            router.push(`/updateContact/${cid}`);
+        };
+
         const filteredContacts = computed(() => {
             if (!searchQuery.value) {
                 return contacts.value;
@@ -188,6 +192,7 @@ export default {
             filteredContacts,
             logout,
             deleteContact,
+            editContact,
             isLoggedIn,
         };
     },

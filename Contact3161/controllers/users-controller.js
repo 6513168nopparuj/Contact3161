@@ -217,12 +217,6 @@ const updateContact = async (req, res, next) => {
         return next(new HttpError("User not found.", 404));
     }
 
-    // if (user.cid !== req.userData.cid) {
-    //     return next(
-    //         new HttpError("You are not allowed to edit this user.", 401)
-    //     );
-    // }
-
     if (newCid !== oldCid) {
         let existingUser;
         try {
