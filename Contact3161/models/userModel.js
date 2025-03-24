@@ -8,7 +8,6 @@ const userSchema = new Schema(
         firstname: { type: String, required: true },
         lastname: { type: String, required: true },
         mobile: { type: String, required: true },
-        password: { type: String, required: true, minlength: 6 },
         email: { type: String, default: "" },
         facebook: { type: String, default: "" },
         imageUrl: { type: String, default: "" },

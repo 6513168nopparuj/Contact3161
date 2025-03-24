@@ -52,7 +52,6 @@ const createContact = async (req, res, next) => {
         lastname,
         mobile,
         email,
-        password,
         facebook,
         imageUrl,
     } = req.body;

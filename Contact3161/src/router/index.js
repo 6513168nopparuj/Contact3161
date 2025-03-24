@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import ContactsView from "../views/ContactsView.vue";
 import SignIn from "../views/SignIn.vue";
 import SignUp from "../views/SignUp.vue";
+import addContact from "../views/addContact.vue";
 
 const routerHistory = createWebHistory();
 
@@ -21,7 +22,13 @@ const routes = [
     {
         path: "/SignUp",
         name: "SignUp",
-        component: SignUp
+        component: SignUp,
+    },
+    {
+        path: "/addContact",
+        name: "addContact",
+        component: addContact,
+        meta: { requiresAuth: true },
     },
     {
         path: "/",
@@ -48,6 +55,6 @@ router.beforeEach((to, from, next) => {
     } else {
         next();
     }
-})
+});
 
 export default router;

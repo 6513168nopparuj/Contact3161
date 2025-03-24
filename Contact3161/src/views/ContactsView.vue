@@ -81,6 +81,11 @@ export default {
     components: {
         ContactCard,
     },
+    methods: {
+        addContact() {
+            this.$router.push("/addContact");
+        },
+    },
     setup() {
         const router = useRouter();
         const searchQuery = ref("");
