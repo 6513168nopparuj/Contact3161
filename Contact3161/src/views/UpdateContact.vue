@@ -55,7 +55,6 @@
       const facebook = ref("");
       const imageUrl = ref("");
   
-      // Fetch the current contact details from the API
       const fetchContact = async () => {
         try {
           const token = localStorage.getItem("token");
