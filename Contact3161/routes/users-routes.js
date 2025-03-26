@@ -27,7 +27,17 @@ router.post(
 
 // router.use(checkAuth);
 
-router.patch("/:cid", usersControllers.updateContact);
+router.patch(
+    "/:cid",
+    [
+        check("cid").not().isEmpty(),
+        check("firstname").not().isEmpty(),
+        check("lastname").not().isEmpty(),
+        check("mobile").not().isEmpty(),
+        check("email").normalizeEmail().isEmail(),
+    ],
+    usersControllers.updateContact
+);
 
 router.delete("/:cid", usersControllers.deleteContact);
 
