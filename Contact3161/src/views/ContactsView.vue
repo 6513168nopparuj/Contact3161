@@ -1,10 +1,5 @@
 <template>
-    <div
-        :class="[
-            'contacts-container',
-            { 'center-content': filteredContacts.length === 0 },
-        ]"
-    >
+    <div class="contacts-container">
         <div class="header-container">
             <h2 class="ui dividing header header">
                 <i
@@ -28,42 +23,44 @@
             </button>
         </div>
 
-        <div class="search-section">
-            <div class="ui fluid action input">
-                <input
-                    type="text"
-                    class="search-input"
-                    placeholder="Search by name, mobile, or email"
-                    v-model="searchQuery"
-                />
-                <button class="ui green button" @click="addContact">
-                    <i class="plus icon"></i> Add
-                </button>
-            </div>
-        </div>
-
-        <div class="border">
-            <div class="contacts-list">
-                <div
-                    v-if="filteredContacts.length > 0"
-                    class="ui grid container"
-                    style="padding-bottom: 7%"
-                >
-                    <div
-                        class="four wide column"
-                        v-for="contact in filteredContacts"
-                        :key="contact._id"
-                    >
-                        <ContactCard
-                            :contact="contact"
-                            :index="Number(contact.cid)"
-                            @delete="deleteContact"
-                            @edit="editContact"
-                        />
-                    </div>
+        <div class="main-content">
+            <div class="search-section">
+                <div class="ui fluid action input">
+                    <input
+                        type="text"
+                        class="search-input"
+                        placeholder="Search by name, mobile, or email"
+                        v-model="searchQuery"
+                    />
+                    <button class="ui green button" @click="addContact">
+                        <i class="plus icon"></i> Add
+                    </button>
                 </div>
-                <div v-else class="no-results">
-                    <h1>No results found.</h1>
+            </div>
+
+            <div class="border">
+                <div class="contacts-list">
+                    <div
+                        v-if="filteredContacts.length > 0"
+                        class="ui grid container"
+                        style="padding-bottom: 7%"
+                    >
+                        <div
+                            class="four wide column"
+                            v-for="contact in filteredContacts"
+                            :key="contact._id"
+                        >
+                            <ContactCard
+                                :contact="contact"
+                                :index="Number(contact.cid)"
+                                @delete="deleteContact"
+                                @edit="editContact"
+                            />
+                        </div>
+                    </div>
+                    <div v-else class="no-results">
+                        <h1>No results found.</h1>
+                    </div>
                 </div>
             </div>
         </div>
@@ -200,22 +197,43 @@ export default {
 </script>
 
 <style scoped>
+.contacts-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.main-content {
+    margin-top: 70px;
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
 .border {
+    flex: 1;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-top: 1rem;
+    overflow: hidden;
+    width: 100%;
 }
 
-/* .contacts-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-} */
-
-.center-content {
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+.contacts-list {
+    height: 100%;
+    overflow-y: auto;
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
 .header-container {
@@ -224,34 +242,82 @@ export default {
     left: 0;
     width: 100%;
     background: black;
-    padding: 1rem;
+    padding: 1rem 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-}
-
-.contacts-list {
-    margin: 2% 1% 3% 1%;
-    overflow-y: auto;
-    flex: 1;
-    padding: 1rem;
-    max-height: calc(100vh - 110px); /* Prevent overflow */
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 /* Search bar styling */
 .search-section {
-    padding-top: 8%;
+    margin-bottom: 1rem;
+    width: 100%;
 }
-.search-bar {
+
+.ui.fluid.action.input {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 10px;
 }
 
 .search-input {
-    width: 100%;
+    flex: 1;
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-right: 10px;
+    min-width: 0; /* Prevents input from overflowing */
+}
+
+/* Grid responsiveness */
+.ui.grid.container {
+    margin: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.ui.grid.container > .column {
+    padding: 1rem !important;
+}
+
+@media screen and (max-width: 1200px) {
+    .ui.grid.container .four.wide.column {
+        width: 33.33% !important;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .ui.grid.container .four.wide.column {
+        width: 50% !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .main-content {
+        padding: 15px;
+    }
+    
+    .ui.grid.container .four.wide.column {
+        width: 100% !important;
+    }
+    
+    .header-container {
+        padding: 1rem;
+    }
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 </style>
