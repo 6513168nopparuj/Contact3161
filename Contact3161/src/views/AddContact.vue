@@ -40,7 +40,12 @@
                 <label for="imageUrl">Image URL</label>
                 <input id="imageUrl" v-model="imageUrl" type="url" />
             </div>
-            <button type="submit">Add Contact</button>
+            <button type="submit">Add Contact</button> ‎
+            <RouterLink to="/Contacts">
+                <button style="background-color: black; color: Red">
+                    Back
+                </button>
+            </RouterLink>
         </form>
     </div>
 </template>
